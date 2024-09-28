@@ -17,14 +17,14 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<?= route(ROUTE_PRODUCT_LIST) ?>">View Products</a>
+                    <a class="nav-link <?= currentRoute() === ROUTE_PRODUCT_LIST ? 'active' : '' ?>" aria-current="page" href="<?= route(ROUTE_PRODUCT_LIST) ?>">View Products</a>
                 </li>
 
                 <?php
                 if (currentUser()?->admin) {
                     ?>
                     <li class="nav-item">
-                        <a class="nav-link" aria-current="page" href="<?= route(ROUTE_PRODUCT_CREATE) ?>">Create Product</a>
+                        <a class="nav-link <?= currentRoute() === ROUTE_PRODUCT_CREATE ? 'active' : '' ?>" aria-current="page" href="<?= route(ROUTE_PRODUCT_CREATE) ?>">Create Product</a>
                     </li>
                     <?php
                 }

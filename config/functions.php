@@ -41,6 +41,11 @@ function route(string $routeName, array $data = []): string
     return config('app.app_url') . (new Router())->GetRouteByName($routeName, $data);
 }
 
+function currentRoute(): ?string
+{
+    return (new Router())->getCurrentRoute();
+}
+
 /**
  * @param array<string, mixed> $data
  */

@@ -29,25 +29,34 @@ class Router
         $this->path = $requestUri;
     }
 
-    public function GetRoute(): void
+    public function getCurrentRoute(): ?string
     {
         $routes = routes();
-        foreach ($routes as $route) {
+        foreach ($routes as $name => $route) {
             if ($this->ValidateRoute($route['url'])) {
-                $this->controller = $route['controller'];
-                $this->method = $route['method'];
-
-                break;
+                return $name;
             }
         }
 
-        if ($this->controller && $this->method) {
-            $Instance = new $this->controller();
-            $method = $this->method;
-            $Instance->{$method}(...$this->parameters);
-        } else {
+        return null;
+    }
+
+    public function GetRoute(): void
+    {
+        $currentRoute = $this->getCurrentRoute();
+
+        if (empty($currentRoute) || empty($currentRoute = routes()[$currentRoute] ?? null)) {
             abort();
+
+            return;
         }
+
+        $this->controller = $currentRoute['controller'];
+        $this->method = $currentRoute['method'];
+
+        $Instance = new $this->controller();
+        $method = $this->method;
+        $Instance->{$method}(...$this->parameters);
     }
 
     /**

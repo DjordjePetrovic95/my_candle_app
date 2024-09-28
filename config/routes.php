@@ -15,7 +15,7 @@ const ROUTE_PRODUCT_UPDATE = 'product_update';
 const ROUTE_PRODUCT_DELETE = 'product_delete';
 
 /**
- * @return array<string, array{url: string, controller: string, method: string}>
+ * @phpstan-return array<string, array{url: string, controller: string, method: string}>
  */
 function routes(): array
 {
