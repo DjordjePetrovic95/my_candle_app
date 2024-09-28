@@ -17,15 +17,25 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="<?= route('index') ?>">Home</a>
+                    <a class="nav-link active" aria-current="page" href="<?= route(ROUTE_PRODUCT_LIST) ?>">View Products</a>
                 </li>
+
+                <?php
+                if (currentUser()?->admin) {
+                    ?>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="<?= route(ROUTE_PRODUCT_CREATE) ?>">Create Product</a>
+                    </li>
+                    <?php
+                }
+                ?>
             </ul>
             <div>
-                <?php if (isset($_SESSION['user'])) { ?>
-                    <a class="btn btn-danger" href="<?= route('logout') ?>">Logout</a>
+                <?php if (currentUser()) { ?>
+                    <a class="btn btn-danger" href="<?= route(ROUTE_LOGOUT) ?>">Logout</a>
                 <?php } else { ?>
-                    <a class="btn btn-primary" href="<?= route('login') ?>">Login</a>
-                    <a class="btn btn-warning" href="<?= route('register') ?>">Register</a>
+                    <a class="btn btn-primary" href="<?= route(ROUTE_LOGIN) ?>">Login</a>
+                    <a class="btn btn-warning" href="<?= route(ROUTE_REGISTER) ?>">Register</a>
                 <?php } ?>
             </div>
         </div>
@@ -45,3 +55,6 @@ if (! empty($messages = getFlashMessages())) {
     }
     clearFlashMessages();
 }
+?>
+
+<div class="container-fluid">

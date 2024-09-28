@@ -26,8 +26,8 @@ class IndexController extends AbstractController
             return;
         }
 
-        $username = $_REQUEST['username'];
-        $password = $_REQUEST['password'];
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
         $error = match (true) {
             empty($username) => addFlash('Username cannot be empty', 'danger'),
@@ -58,7 +58,7 @@ class IndexController extends AbstractController
         $user->password = $password;
         $this->userRepository->create($user);
 
-        redirect('login');
+        redirect(ROUTE_LOGIN);
     }
 
     public function login(): void
@@ -69,8 +69,8 @@ class IndexController extends AbstractController
             return;
         }
 
-        $username = $_REQUEST['username'];
-        $password = $_REQUEST['password'];
+        $username = $_POST['username'];
+        $password = $_POST['password'];
 
         if (empty($username) || empty($password)) {
             addFlash('Username or password is empty', 'danger');
@@ -91,12 +91,12 @@ class IndexController extends AbstractController
         }
 
         login($user);
-        redirect('index');
+        redirect(ROUTE_INDEX);
     }
 
     public function logout(): void
     {
         logout();
-        redirect('index');
+        redirect(ROUTE_INDEX);
     }
 }

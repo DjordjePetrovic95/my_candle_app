@@ -3,63 +3,64 @@
 use App\Controllers\IndexController;
 use App\Controllers\ProductController;
 
+const ROUTE_INDEX = 'index';
+const ROUTE_REGISTER = 'register';
+const ROUTE_LOGIN = 'login';
+const ROUTE_LOGOUT = 'logout';
+const ROUTE_PRODUCT_LIST = 'product_list';
+const ROUTE_PRODUCT_SHOW = 'product_show';
+const ROUTE_PRODUCT_CREATE = 'product_create';
+const ROUTE_PRODUCT_UPDATE = 'product_update';
+const ROUTE_PRODUCT_DELETE = 'product_delete';
+
 /**
- * @return array<string, array{url: string, name: string, controller: string, method: string}>
+ * @return array<string, array{url: string, controller: string, method: string}>
  */
 function routes(): array
 {
     return [
-        'index' => [
+        ROUTE_INDEX => [
             'url' => '/',
-            'name' => 'index',
             'controller' => IndexController::class,
             'method' => 'index',
         ],
-        'register' => [
+        ROUTE_REGISTER => [
             'url' => '/register',
-            'name' => 'register',
             'controller' => IndexController::class,
             'method' => 'register',
         ],
-        'login' => [
+        ROUTE_LOGIN => [
             'url' => '/login',
-            'name' => 'login',
             'controller' => IndexController::class,
             'method' => 'login',
         ],
-        'logout' => [
+        ROUTE_LOGOUT => [
             'url' => '/logout',
-            'name' => 'logout',
             'controller' => IndexController::class,
             'method' => 'logout',
         ],
-        'product_list' => [
+        ROUTE_PRODUCT_LIST => [
             'url' => '/product/list',
-            'name' => 'product_list',
             'controller' => ProductController::class,
             'method' => 'index',
         ],
-        'product_show' => [
+        ROUTE_PRODUCT_SHOW => [
             'url' => '/product/{id}/show',
-            'name' => 'product_show',
             'controller' => ProductController::class,
             'method' => 'show',
         ],
-        'product_create' => [
-            'url' => '/product/{id}/create',
-            'name' => 'product_create',
+        ROUTE_PRODUCT_CREATE => [
+            'url' => '/product/create',
             'controller' => ProductController::class,
             'method' => 'create',
         ],
-        'product_update' => [
+        ROUTE_PRODUCT_UPDATE => [
             'url' => '/product/{id}/update',
-            'name' => 'product_update',
             'controller' => ProductController::class,
             'method' => 'update',
         ],
-        'product_delete' => [
+        ROUTE_PRODUCT_DELETE => [
             'url' => '/product/{id}/delete',
-            'name' => 'product_delete',
             'controller' => ProductController::class,
             'method' => 'delete',
         ],

@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Core\Database;
 use App\Models\AbstractModel;
 use PDO;
+use ReflectionClass;
 
 /**
  * @template T of AbstractModel
@@ -28,7 +29,10 @@ abstract class AbstractRepository
      */
     public function findAll(): array
     {
-        return $this->db->pdo->prepare('SELECT * FROM ' . $this->tableName)->fetchAll(PDO::FETCH_CLASS, $this->modelClass);
+        $query = $this->db->pdo->prepare('SELECT * FROM ' . $this->tableName);
+        $query->execute();
+
+        return $query->fetchAll(PDO::FETCH_CLASS, $this->modelClass);
     }
 
     /**
@@ -89,9 +93,8 @@ abstract class AbstractRepository
     public function delete(int $id): bool
     {
         $query = $this->db->pdo->prepare('DELETE FROM ' . $this->tableName . ' WHERE id=:id');
-        $query->bindParam(':id', $id);
 
-        return $query->execute();
+        return $query->execute(compact('id'));
     }
 
     /**
@@ -100,13 +103,16 @@ abstract class AbstractRepository
      */
     public function create(AbstractModel $object): AbstractModel
     {
-        $sql = 'INSERT INTO ' . $this->tableName . '(' . implode(',', array_map(fn(string $field) => ':' . $field, array_keys(get_object_vars($object)))) . ') VALUES (' . implode(',', array_values(get_object_vars($object))) . ')';
-        $query = $this->db->pdo->prepare($sql);
-
-        foreach (get_object_vars($object) as $field => $value) {
-            $query->bindParam(':' . $field, $value);
+        $reflection = new ReflectionClass($object);
+        $properties = $reflection->getProperties();
+        $data = [];
+        foreach ($properties as $property) {
+            $data[$property->getName()] = $property->getValue($object);
         }
-        $query->execute();
+
+        $sql = 'INSERT INTO ' . $this->tableName . '(' . implode(',', array_keys($data)) . ') VALUES (' . implode(',', array_map(fn(string $field) => ':' . $field, array_keys($data))) . ')';
+        $query = $this->db->pdo->prepare($sql);
+        $query->execute($data);
 
         if (! empty($this->db->pdo->lastInsertId()) && is_numeric($this->db->pdo->lastInsertId())) {
             $object->id = (int) $this->db->pdo->lastInsertId();
@@ -121,13 +127,16 @@ abstract class AbstractRepository
      */
     public function update(AbstractModel $object): AbstractModel
     {
-        $sql = 'UPDATE ' . $this->tableName . ' SET ' . implode(',', array_map(fn(string $field): string => $field . '=:' . $field, array_keys(get_object_vars($object)))) . ' WHERE id=:id';
-        $query = $this->db->pdo->prepare($sql);
-
-        foreach (get_object_vars($object) as $field => $value) {
-            $query->bindParam(':' . $field, $value);
+        $reflection = new ReflectionClass($object);
+        $properties = $reflection->getProperties();
+        $data = [];
+        foreach ($properties as $property) {
+            $data[$property->getName()] = $property->getValue($object);
         }
-        $query->execute();
+
+        $sql = 'UPDATE ' . $this->tableName . ' SET ' . implode(',', array_map(fn(string $field): string => $field . '=:' . $field, array_keys($data))) . ' WHERE id=:id';
+        $query = $this->db->pdo->prepare($sql);
+        $query->execute($data);
 
         return $object;
     }

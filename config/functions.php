@@ -89,7 +89,7 @@ function clearFlashMessages(): void
 
 function login(User $user): void
 {
-    $_SESSION['user'] = $user;
+    $_SESSION['user'] = serialize($user);
 }
 
 function logout(): void
@@ -99,5 +99,6 @@ function logout(): void
 
 function currentUser(): ?User
 {
-    return $_SESSION['user'] ?? null;
+    $user = unserialize($_SESSION['user'] ?? '');
+    return $user instanceof User ? $user : null;
 }
