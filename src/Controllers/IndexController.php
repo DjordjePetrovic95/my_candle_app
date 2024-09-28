@@ -21,7 +21,7 @@ class IndexController extends AbstractController
 
     public function register(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        if (getRequestMethod() !== 'POST') {
             view('index/register');
 
             return;
@@ -64,7 +64,7 @@ class IndexController extends AbstractController
 
     public function login(): void
     {
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        if (getRequestMethod() !== 'POST') {
             view('index/login');
 
             return;

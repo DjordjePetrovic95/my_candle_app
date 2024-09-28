@@ -102,3 +102,8 @@ function currentUser(): ?User
     $user = unserialize($_SESSION['user'] ?? '');
     return $user instanceof User ? $user : null;
 }
+
+function getRequestMethod(): string
+{
+    return $_SERVER['REQUEST_METHOD'];
+}

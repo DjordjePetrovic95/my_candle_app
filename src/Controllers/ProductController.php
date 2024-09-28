@@ -27,7 +27,7 @@ class ProductController
             abort(403);
         }
 
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        if (getRequestMethod() !== 'POST') {
             view('products/create');
 
             return;
@@ -61,7 +61,7 @@ class ProductController
             return;
         }
 
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        if (getRequestMethod() !== 'POST') {
             view('products/update', compact('product'));
 
             return;
