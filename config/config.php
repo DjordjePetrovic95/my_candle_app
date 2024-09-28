@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 function config(string $key): mixed
 {
     $config = [

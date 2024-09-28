@@ -1,13 +1,11 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Controllers;
 
 use App\Models\User;
 use App\Repository\UserRepository;
 
-class IndexController extends AbstractController
+class IndexController
 {
     private readonly UserRepository $userRepository;
 
@@ -35,6 +33,9 @@ class IndexController extends AbstractController
         $error = match (true) {
             empty($username) => addFlash('Username cannot be empty', 'danger'),
             strlen($username) < 8 => addFlash('Username must be at least 8 characters', 'danger'),
+            ! empty($this->userRepository->findOneBy([
+                'username' => $username,
+            ])) => addFlash('Username already taken', 'danger'),
             default => null,
         };
 
@@ -58,7 +59,7 @@ class IndexController extends AbstractController
 
         $user = new User();
         $user->username = $username;
-        $user->password = $password;
+        $user->password = password_hash($password, PASSWORD_DEFAULT);
         $this->userRepository->create($user);
 
         redirect(ROUTE_LOGIN);
@@ -87,7 +88,7 @@ class IndexController extends AbstractController
         ]);
 
         if (empty($user) || ! password_verify($password, $user->password)) {
-            addFlash('Username or password is empty', 'danger');
+            addFlash('Invalid credentials', 'danger');
             view('index/login');
 
             return;

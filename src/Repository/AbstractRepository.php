@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Repository;
 
 use App\Core\Database;
@@ -72,8 +70,12 @@ abstract class AbstractRepository
      *
      * @phpstan-return list<T>
      */
-    public function findBy(array $criteria = [], array $orderBy = [], ?int $limit = null, ?int $offset = null): array
-    {
+    public function findBy(
+        array $criteria = [],
+        array $orderBy = [],
+        ?int $limit = null,
+        ?int $offset = null
+    ): array {
         $sql = 'SELECT * FROM ' . $this->tableName;
 
         if (! empty($criteria)) {
@@ -84,7 +86,7 @@ abstract class AbstractRepository
         }
 
         if (! empty($orderBy)) {
-            $sql = 'ORDER BY ';
+            $sql .= ' ORDER BY ';
             $order = [];
             foreach ($orderBy as $field => $direction) {
                 $order[] = $field . ' ' . $direction;

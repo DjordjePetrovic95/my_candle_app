@@ -20,7 +20,7 @@ class ProductTable
             clone.querySelectorAll('.product-description')[0].textContent = product.description;
             clone.querySelectorAll('.product-image img')[0].setAttribute('src', product.image);
             clone.querySelectorAll('.product-action-view')[0].setAttribute('href', product.viewUrl);
-            clone.querySelectorAll('.product-action-delete')[0].setAttribute('href', product.deleteUrl);
+            clone.querySelectorAll('.product-action-delete')[0]?.setAttribute('href', product.deleteUrl);
 
             this.container.append(clone);
         });

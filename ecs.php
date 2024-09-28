@@ -23,7 +23,6 @@ return ECSConfig::configure()
         psr12: true,
         common: true,
         symplify: true,
-        strict: true,
         cleanCode: true
      )
      ;

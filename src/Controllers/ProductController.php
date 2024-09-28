@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 namespace App\Controllers;
 
 use App\Models\Product;
@@ -23,7 +21,7 @@ class ProductController
 
     public function load(): void
     {
-        $products = $this->productRepository->findBy();
+        $products = $this->productRepository->findBy(orderBy: ['id' => 'DESC']);
 
         $return = [
             'data' => array_map(fn (Product $product): array => [

@@ -30,7 +30,14 @@
         </td>
         <td class="text-center align-middle text-nowrap">
             <a class="btn btn-light btn-sm product-action-view" href="">View</a>
+
+            <?php
+            if (currentUser()?->admin) {
+                ?>
             <a class="btn btn-danger btn-sm product-action-delete" href="" onclick="return confirm('Are you sure?')">Delete</a>
+            <?php
+            }
+?>
         </td>
     </tr>
 </template>

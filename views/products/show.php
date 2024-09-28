@@ -12,10 +12,10 @@ $Title = 'Product'
             if (currentUser()?->admin) {
                 ?>
             <div>
-                <a class="btn btn-warning" href="<?= route(ROUTE_PRODUCT_UPDATE, [
+                <a class="btn btn-warning btn-sm" href="<?= route(ROUTE_PRODUCT_UPDATE, [
                     'id' => $product->id,
                 ]) ?>">Edit</a>
-                <a class="btn btn-danger" href="<?= route(ROUTE_PRODUCT_DELETE, [
+                <a class="btn btn-danger btn-sm" href="<?= route(ROUTE_PRODUCT_DELETE, [
                     'id' => $product->id,
                 ]) ?>" onclick="return confirm('Are you sure?')">Delete</a>
             </div>
