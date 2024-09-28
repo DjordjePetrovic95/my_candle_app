@@ -28,7 +28,7 @@ function view(string $name, array $data = []): void
  */
 function route(string $routeName, array $data = []): string
 {
-    return config('app.app_url') . (new Router)->GetRouteByName($routeName, $data);
+    return config('app.app_url') . (new Router())->GetRouteByName($routeName, $data);
 }
 
 /**
@@ -50,7 +50,7 @@ function public_dir(string $file): string
 
 function abort(int $code = 404, ?string $message = null): void
 {
-    $message ??= match($code) {
+    $message ??= match ($code) {
         401 => 'Unauthorized',
         403 => 'Forbidden',
         404 => 'Not found',

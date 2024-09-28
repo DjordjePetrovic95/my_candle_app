@@ -9,7 +9,8 @@ class ProductController
 {
     private readonly ProductRepository $productRepository;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->productRepository = new ProductRepository();
     }
 

@@ -13,9 +13,9 @@ class Router
      */
     private array $parameters = [];
 
-    private ?string $controller = NULL;
+    private ?string $controller = null;
 
-    private ?string $method = NULL;
+    private ?string $method = null;
 
     /**
      * @throws Exception
@@ -46,7 +46,7 @@ class Router
         endforeach;
 
         if ($this->controller && $this->method):
-            $Instance = new $this->controller;
+            $Instance = new $this->controller();
             $method = $this->method;
             $Instance->$method(...$this->parameters);
         else:

@@ -64,7 +64,7 @@ abstract class AbstractRepository
      */
     public function findBy(array $criteria, array $orderBy = [], int $limit = null, int $offset = null): array
     {
-        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE ' . implode(' AND ', array_map(fn(string $param): string => $param . '=:' . $param, array_keys($criteria)));
+        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE ' . implode(' AND ', array_map(fn (string $param): string => $param . '=:' . $param, array_keys($criteria)));
 
         if (! empty($orderBy)) {
             $sql = 'ORDER BY ';
@@ -110,7 +110,7 @@ abstract class AbstractRepository
             $data[$property->getName()] = $property->getValue($object);
         }
 
-        $sql = 'INSERT INTO ' . $this->tableName . '(' . implode(',', array_keys($data)) . ') VALUES (' . implode(',', array_map(fn(string $field) => ':' . $field, array_keys($data))) . ')';
+        $sql = 'INSERT INTO ' . $this->tableName . '(' . implode(',', array_keys($data)) . ') VALUES (' . implode(',', array_map(fn (string $field) => ':' . $field, array_keys($data))) . ')';
         $query = $this->db->pdo->prepare($sql);
         $query->execute($data);
 
@@ -134,7 +134,7 @@ abstract class AbstractRepository
             $data[$property->getName()] = $property->getValue($object);
         }
 
-        $sql = 'UPDATE ' . $this->tableName . ' SET ' . implode(',', array_map(fn(string $field): string => $field . '=:' . $field, array_keys($data))) . ' WHERE id=:id';
+        $sql = 'UPDATE ' . $this->tableName . ' SET ' . implode(',', array_map(fn (string $field): string => $field . '=:' . $field, array_keys($data))) . ' WHERE id=:id';
         $query = $this->db->pdo->prepare($sql);
         $query->execute($data);
 

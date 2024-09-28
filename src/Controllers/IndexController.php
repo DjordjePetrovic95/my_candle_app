@@ -9,7 +9,8 @@ class IndexController extends AbstractController
 {
     private readonly UserRepository $userRepository;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->userRepository = new UserRepository();
     }
 

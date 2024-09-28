@@ -33,18 +33,18 @@
                 ]) ?>">View</a>
                 <?php
                 if (currentUser()?->admin) {
-                ?>
+                    ?>
                     <a class="btn btn-danger" href="<?= route(ROUTE_PRODUCT_DELETE, [
-                        'id' => $product->id,
-                    ]) ?>" onclick="return confirm('Are you sure?')">Delete</a>
+                            'id' => $product->id,
+                        ]) ?>" onclick="return confirm('Are you sure?')">Delete</a>
                 <?php
                 }
-                ?>
+        ?>
             </td>
         </tr>
         <?php
     }
-    ?>
+?>
 
     <?php require_once __DIR__ . '/../layouts/footer.php'; ?>
     </tbody>

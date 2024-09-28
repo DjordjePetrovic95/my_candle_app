@@ -17,11 +17,12 @@ return ECSConfig::configure()
     // add a single rule
     ->withRules([
         NoUnusedImportsFixer::class,
-        SingleQuoteFixer::class
+        SingleQuoteFixer::class,
     ])
 
     // add sets - group of rules
     ->withPreparedSets(
+        psr12: true,
         arrays: true,
         comments: true,
         docblocks: true,

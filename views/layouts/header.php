@@ -28,7 +28,7 @@
                     </li>
                     <?php
                 }
-                ?>
+    ?>
             </ul>
             <div>
                 <?php if (currentUser()) { ?>
@@ -55,6 +55,6 @@ if (! empty($messages = getFlashMessages())) {
     }
     clearFlashMessages();
 }
-?>
+    ?>
 
 <div class="container-fluid">

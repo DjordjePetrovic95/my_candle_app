@@ -10,18 +10,18 @@ $Title = 'Product'
             <div><h3><strong><?= $product->name ?></strong></h3></div>
             <?php
             if (currentUser()?->admin) {
-            ?>
+                ?>
             <div>
                 <a class="btn btn-warning" href="<?= route(ROUTE_PRODUCT_UPDATE, [
-                    'id' => $product->id,
-                ]) ?>">Edit</a>
+                        'id' => $product->id,
+                    ]) ?>">Edit</a>
                 <a class="btn btn-danger" href="<?= route(ROUTE_PRODUCT_DELETE, [
-                    'id' => $product->id,
-                ]) ?>" onclick="return confirm('Are you sure?')">Delete</a>
+                        'id' => $product->id,
+                    ]) ?>" onclick="return confirm('Are you sure?')">Delete</a>
             </div>
             <?php
             }
-            ?>
+?>
         </div>
         <div class="d-grid gap-4">
             <div class="row">

@@ -11,7 +11,9 @@ abstract class Singleton
 
     abstract protected function __construct();
 
-    protected function __clone(){}
+    protected function __clone()
+    {
+    }
 
     public function __wakeup()
     {
