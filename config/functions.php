@@ -3,9 +3,9 @@
 use App\Core\Router;
 use App\Models\User;
 
-function dd(mixed $v): never
+function dd(mixed $value, mixed ...$values): never
 {
-    var_dump($v);
+    var_dump(func_get_args());
     die;
 }
 
@@ -14,13 +14,12 @@ function dd(mixed $v): never
  */
 function view(string $name, array $data = []): void
 {
+    if (! file_exists(__DIR__ . "/../views/$name.php")) {
+        abort(404);
+    }
+
     extract($data);
-    if (file_exists(__DIR__ . "/../views/$name.php")):
-        require_once __DIR__ . "/../views/$name.php";
-    else:
-        echo "<h1 style='color: red;text-align: center'>View [$name] Not found</h1>";
-        exit();
-    endif;
+    require_once __DIR__ . "/../views/$name.php";
 }
 
 /**
@@ -49,17 +48,17 @@ function public_dir(string $file): string
     return config('app.public_url') . $file;
 }
 
-function abort(int $code = 404): never
+function abort(int $code = 404, ?string $message = null): void
 {
+    $message ??= match($code) {
+        401 => 'Unauthorized',
+        403 => 'Forbidden',
+        404 => 'Not found',
+        default => 'Internal Server Error',
+    };
+
     http_response_code($code);
-
-    if (file_exists(__DIR__ . "/../views/errors/$code.php")) {
-        view("errors/$code");
-    } else {
-        echo "Error $code";
-    }
-
-    exit();
+    view('errors/generic', compact('code', 'message'));
 }
 
 /**
@@ -96,4 +95,9 @@ function login(User $user): void
 function logout(): void
 {
     session_destroy();
+}
+
+function currentUser(): ?User
+{
+    return $_SESSION['user'] ?? null;
 }

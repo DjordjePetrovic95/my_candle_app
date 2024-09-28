@@ -15,6 +15,8 @@ class Database extends Singleton
     protected function __construct()
     {
         /** @phpstan-ignore-next-line */
-        $this->pdo = new PDO(sprintf('mysql:host=%s;dbname=%s', config('db.host'), config('db.db_name')), config('db.user'), config('db.pass'));
+        $this->pdo = new PDO(sprintf('mysql:host=%s;dbname=%s', config('db.host'), config('db.db_name')), config('db.user'), config('db.pass'), [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+        ]);
     }
 }

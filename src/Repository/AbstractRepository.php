@@ -37,7 +37,7 @@ abstract class AbstractRepository
     public function get(int $id): ?AbstractModel
     {
         $query = $this->db->pdo->prepare('SELECT * FROM ' . $this->tableName . ' WHERE id=:id LIMIT 1');
-        $query->bindParam(':id', $id);
+        $query->execute(compact('id'));
         $object = $query->fetchObject($this->modelClass);
 
         return empty($object) ? null : $object;
@@ -81,9 +81,7 @@ abstract class AbstractRepository
         }
 
         $query = $this->db->pdo->prepare($sql);
-        foreach ($criteria as $key => $value) {
-            $query->bindParam(':' . $key, $value);
-        }
+        $query->execute($criteria);
 
         return (array) $query->fetchAll(PDO::FETCH_CLASS, $this->modelClass);
     }

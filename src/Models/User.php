@@ -4,7 +4,9 @@ namespace App\Models;
 
 class User extends AbstractModel
 {
-    public int $username;
+    public string $username;
 
     public string $password;
+
+    public bool $admin;
 }
