@@ -1,42 +1,42 @@
 <?php
 
 use App\Core\Router;
+use App\Models\User;
 
-function dd($v): never
+function dd(mixed $v): never
 {
     var_dump($v);
     die;
 }
 
-function view($name, $data = []): void
+/**
+ * @param array<int|string, mixed> $data
+ */
+function view(string $name, array $data = []): void
 {
     extract($data);
-    if (file_exists(__DIR__ . "/../Views/$name.php")):
-        require_once __DIR__ . "/../Views/$name.php";
+    if (file_exists(__DIR__ . "/../views/$name.php")):
+        require_once __DIR__ . "/../views/$name.php";
     else:
         echo "<h1 style='color: red;text-align: center'>View [$name] Not found</h1>";
         exit();
     endif;
 }
 
-function config($key): mixed
+/**
+ * @param array<string, mixed> $data
+ * @throws Exception
+ */
+function route(string $routeName, array $data = []): string
 {
-    $config = require __DIR__ . '/config.php';
-
-    if (array_key_exists($key, $config)):
-        return $config[$key];
-    else:
-        echo "<h1 style='color: red;text-align: center'>[$key] not found in config.php file</h1>";
-        exit();
-    endif;
+    return config('app.app_url') . (new Router)->GetRouteByName($routeName, $data);
 }
 
-function route($routeName, $data = []): string
-{
-    return config('app_url') . (new Router)->GetRouteByName($routeName, $data);
-}
-
-function redirect($routeName, $data = []): void
+/**
+ * @param array<string, mixed> $data
+ * @throws Exception
+ */
+function redirect(string $routeName, array $data = []): never
 {
     header('Location: ' . route($routeName, $data));
     exit();
@@ -44,18 +44,16 @@ function redirect($routeName, $data = []): void
 
 function public_dir(string $file): string
 {
-    if (strpos($file, '/') === 0):
-        $file = substr($file, 1);
-    endif;
+    $file = ltrim($file, '/');
 
-    return config('public_url') . $file;
+    return config('app.public_url') . $file;
 }
 
-function abort($code = 404): void
+function abort(int $code = 404): never
 {
     http_response_code($code);
 
-    if (file_exists(__DIR__ . "/../Views/errors/$code.php")) {
+    if (file_exists(__DIR__ . "/../views/errors/$code.php")) {
         view("errors/$code");
     } else {
         echo "Error $code";
@@ -64,6 +62,9 @@ function abort($code = 404): void
     exit();
 }
 
+/**
+ * @phpstan-param 'success'|'warning'|'danger' $type
+ */
 function addFlash(string $message, string $type = 'success'): bool
 {
     $_SESSION['flashMessages'][] = [
@@ -74,6 +75,9 @@ function addFlash(string $message, string $type = 'success'): bool
     return true;
 }
 
+/**
+ * @phpstan-return list<array{message: string, type: 'success'|'warning'|'danger'}>
+ */
 function getFlashMessages(): array
 {
     return $_SESSION['flashMessages'] ?? [];
@@ -84,9 +88,9 @@ function clearFlashMessages(): void
     unset($_SESSION['flashMessages']);
 }
 
-function login(array $data): void
+function login(User $user): void
 {
-    $_SESSION['user'] = $data;
+    $_SESSION['user'] = $user;
 }
 
 function logout(): void

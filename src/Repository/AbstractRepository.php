@@ -46,6 +46,16 @@ abstract class AbstractRepository
     /**
      * @phpstan-param array<string, mixed> $criteria
      * @phpstan-param array<string, 'ASC'|'DESC'> $orderBy
+     * @phpstan-return T|null
+     */
+    public function findOneBy(array $criteria, array $orderBy = []): ?AbstractModel
+    {
+        return $this->findBy($criteria, $orderBy, 1)[0] ?? null;
+    }
+
+    /**
+     * @phpstan-param array<string, mixed> $criteria
+     * @phpstan-param array<string, 'ASC'|'DESC'> $orderBy
      * @phpstan-return list<T>
      */
     public function findBy(array $criteria, array $orderBy = [], int $limit = null, int $offset = null): array

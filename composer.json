@@ -27,6 +27,6 @@
     "scripts": {
         "ecs": "vendor/bin/ecs",
         "ecs:fix": "vendor/bin/ecs --fix",
-        "phpstan": "vendor/bin/phpstan analyze --level 8 src"
+        "phpstan": "vendor/bin/phpstan analyze --level 9 src config"
     }
 }

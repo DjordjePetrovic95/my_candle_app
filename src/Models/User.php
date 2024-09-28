@@ -6,5 +6,5 @@ class User extends AbstractModel
 {
     public int $username;
 
-    public int $password;
+    public string $password;
 }
