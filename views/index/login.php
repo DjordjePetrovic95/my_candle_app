@@ -1,4 +1,4 @@
-<?php $Title = 'Login'; ?>
+<?php $title = 'Login'; ?>
 <?php require_once __DIR__ . '/../layouts/header.php'; ?>
 
 <div class="card mx-auto" style="max-width: 600px">

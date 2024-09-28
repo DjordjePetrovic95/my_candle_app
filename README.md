@@ -8,3 +8,4 @@
 4. vec postojeci korisnici:
     - `djordje_admin` / `djordje_admin`
     - `djordje_user` / `djordje_user`
+5. ako ima potrebe azurirati `config/config.php`

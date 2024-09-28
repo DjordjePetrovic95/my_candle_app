@@ -1,4 +1,4 @@
-<?php $Title = 'Home'; ?>
+<?php $title = 'Home'; ?>
 <?php require_once __DIR__ . '/../layouts/header.php'; ?>
 
 <div class="card">
@@ -45,5 +45,5 @@
 <script>
     window.loadProductUrl = '<?= route(ROUTE_PRODUCT_LOAD) ?>';
 </script>
-<script src="<?= public_dir('product-list.js') ?>"></script>
+<script src="<?= public_dir('js/product-list.js') ?>"></script>
 <?php require_once __DIR__ . '/../layouts/footer.php'; ?>

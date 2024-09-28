@@ -1,5 +1,5 @@
 <?php
-$Title = 'Update Product'
+$title = 'Update Product'
 /** @var \App\Models\Product $product */
 ?>
 <?php require_once __DIR__ . '/../layouts/header.php'; ?>

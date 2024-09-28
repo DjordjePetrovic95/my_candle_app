@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="<?= public_dir('bootstrap.css') ?>" rel="stylesheet">
-    <title><?= $Title ?? 'App' ?></title>
+    <link href="<?= public_dir('css/bootstrap.css') ?>" rel="stylesheet">
+    <title><?= $title ?? 'App' ?></title>
 </head>
 <body>
 
