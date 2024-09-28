@@ -24,6 +24,15 @@ function view(string $name, array $data = []): void
 
 /**
  * @param array<string, mixed> $data
+ */
+function json(array $data): void
+{
+    header('Content-Type: application/json');
+    echo json_encode($data);
+}
+
+/**
+ * @param array<string, mixed> $data
  * @throws Exception
  */
 function route(string $routeName, array $data = []): string

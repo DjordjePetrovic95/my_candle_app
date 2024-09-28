@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<nav class="navbar navbar-expand-lg bg-body-tertiary mb-3">
     <div class="container-fluid">
         <a class="navbar-brand" href="<?= route('index') ?>"><?= config('app.app_name') ?></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,10 +32,10 @@
             </ul>
             <div>
                 <?php if (currentUser()) { ?>
-                    <a class="btn btn-danger" href="<?= route(ROUTE_LOGOUT) ?>">Logout</a>
+                    <a class="btn btn-danger btn-sm" href="<?= route(ROUTE_LOGOUT) ?>">Logout</a>
                 <?php } else { ?>
-                    <a class="btn btn-primary" href="<?= route(ROUTE_LOGIN) ?>">Login</a>
-                    <a class="btn btn-warning" href="<?= route(ROUTE_REGISTER) ?>">Register</a>
+                    <a class="btn btn-primary btn-sm" href="<?= route(ROUTE_LOGIN) ?>">Login</a>
+                    <a class="btn btn-warning btn-sm" href="<?= route(ROUTE_REGISTER) ?>">Register</a>
                 <?php } ?>
             </div>
         </div>

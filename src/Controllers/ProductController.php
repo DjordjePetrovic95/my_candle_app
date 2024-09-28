@@ -14,11 +14,31 @@ class ProductController
         $this->productRepository = new ProductRepository();
     }
 
-    public function index(int $page = 1): void //todo
+    public function index(): void //todo
+    {
+        view('products/index');
+    }
+
+    public function load(): void
     {
         $products = $this->productRepository->findBy();
 
-        view('products/index', compact('products', 'page'));
+        $return = [
+            'data' => array_map(fn (Product $product): array => [
+                'id' => $product->id,
+                'name' => $product->name,
+                'description' => $product->description,
+                'image' => $product->getImage(),
+                'viewUrl' => route(ROUTE_PRODUCT_SHOW, [
+                    'id' => $product->id,
+                ]),
+                'deleteUrl' => route(ROUTE_PRODUCT_DELETE, [
+                    'id' => $product->id,
+                ]),
+            ], $products),
+        ];
+
+        json($return);
     }
 
     public function create(): void

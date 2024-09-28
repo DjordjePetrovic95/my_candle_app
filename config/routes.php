@@ -8,6 +8,7 @@ const ROUTE_REGISTER = 'register';
 const ROUTE_LOGIN = 'login';
 const ROUTE_LOGOUT = 'logout';
 const ROUTE_PRODUCT_LIST = 'product_list';
+const ROUTE_PRODUCT_LOAD = 'product_load';
 const ROUTE_PRODUCT_SHOW = 'product_show';
 const ROUTE_PRODUCT_CREATE = 'product_create';
 const ROUTE_PRODUCT_UPDATE = 'product_update';
@@ -43,6 +44,11 @@ function routes(): array
             'url' => '/product/list',
             'controller' => ProductController::class,
             'method' => 'index',
+        ],
+        ROUTE_PRODUCT_LOAD => [
+            'url' => '/product/load',
+            'controller' => ProductController::class,
+            'method' => 'load',
         ],
         ROUTE_PRODUCT_SHOW => [
             'url' => '/product/{id}/show',
