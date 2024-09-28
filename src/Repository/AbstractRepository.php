@@ -25,17 +25,6 @@ abstract class AbstractRepository
     }
 
     /**
-     * @phpstan-return list<T>
-     */
-    public function findAll(): array
-    {
-        $query = $this->db->pdo->prepare('SELECT * FROM ' . $this->tableName);
-        $query->execute();
-
-        return $query->fetchAll(PDO::FETCH_CLASS, $this->modelClass);
-    }
-
-    /**
      * @phpstan-return T|null
      */
     public function get(int $id): ?AbstractModel
@@ -49,12 +38,28 @@ abstract class AbstractRepository
 
     /**
      * @phpstan-param array<string, mixed> $criteria
-     * @phpstan-param array<string, 'ASC'|'DESC'> $orderBy
      * @phpstan-return T|null
      */
-    public function findOneBy(array $criteria, array $orderBy = []): ?AbstractModel
+    public function findOneBy(array $criteria): ?AbstractModel
     {
-        return $this->findBy($criteria, $orderBy, 1)[0] ?? null;
+        return $this->findBy($criteria)[0] ?? null;
+    }
+
+    /**
+     * @phpstan-param array<string, mixed> $criteria
+     */
+    public function count(array $criteria = []): int
+    {
+        $sql = 'SELECT COUNT(*) FROM ' . $this->tableName;
+
+        if (! empty($criteria)) {
+            $sql .= ' WHERE ' . implode(' AND ', array_map(fn (string $param): string => $param . '=:' . $param, array_keys($criteria)));
+        }
+
+        $query = $this->db->pdo->prepare($sql);
+        $query->execute($criteria);
+
+        return (int) $query->fetchColumn();
     }
 
     /**
@@ -62,9 +67,13 @@ abstract class AbstractRepository
      * @phpstan-param array<string, 'ASC'|'DESC'> $orderBy
      * @phpstan-return list<T>
      */
-    public function findBy(array $criteria, array $orderBy = [], int $limit = null, int $offset = null): array
+    public function findBy(array $criteria = [], array $orderBy = [], int $limit = null, int $offset = null): array
     {
-        $sql = 'SELECT * FROM ' . $this->tableName . ' WHERE ' . implode(' AND ', array_map(fn (string $param): string => $param . '=:' . $param, array_keys($criteria)));
+        $sql = 'SELECT * FROM ' . $this->tableName;
+
+        if (! empty($criteria)) {
+            $sql .= ' WHERE ' . implode(' AND ', array_map(fn (string $param): string => $param . '=:' . $param, array_keys($criteria)));
+        }
 
         if (! empty($orderBy)) {
             $sql = 'ORDER BY ';

@@ -37,21 +37,21 @@ class Router
     public function GetRoute(): void
     {
         $routes = routes();
-        foreach ($routes as $route):
-            if ($this->ValidateRoute($route['url'])):
+        foreach ($routes as $route) {
+            if ($this->ValidateRoute($route['url'])) {
                 $this->controller = $route['controller'];
                 $this->method = $route['method'];
                 break;
-            endif;
-        endforeach;
+            }
+        }
 
-        if ($this->controller && $this->method):
+        if ($this->controller && $this->method) {
             $Instance = new $this->controller();
             $method = $this->method;
             $Instance->$method(...$this->parameters);
-        else:
+        } else {
             abort();
-        endif;
+        }
     }
 
     private function ValidateRoute(string $routeUrl): bool
@@ -62,23 +62,22 @@ class Router
         //client url
         $url = array_values(array_filter(explode('/', $this->path)));
 
-        if (count($uri) !== count($url)):
+        if (count($uri) !== count($url)) {
             return false;
-        endif;
+        }
 
-        foreach ($uri as $key => $params):
-
+        foreach ($uri as $key => $params) {
             //if url has {*} accept whatever in it
-            if (preg_match('/{(.*?)}/', $params)):
+            if (preg_match('/{(.*?)}/', $params)) {
                 $param = str_replace(['{', '}'], '', $params);
                 $this->parameters[$param] = $url[$key];
                 continue;
-            else:
-                if ($params !== $url[$key]):
+            } else {
+                if ($params !== $url[$key]) {
                     return false;
-                endif;
-            endif;
-        endforeach;
+                }
+            }
+        }
 
         // client url truly found
         return true;
@@ -98,17 +97,18 @@ class Router
         } else {
             $extractUrlParams = array_values(array_filter(explode('/', $searchRoute['url'])));
 
-            foreach ($extractUrlParams as $key => $param):
-                if (preg_match('/{(.*?)}/', $param)):
+            foreach ($extractUrlParams as $key => $param) {
+                if (preg_match('/{(.*?)}/', $param)) {
                     $variable = str_replace(['{', '}'], '', $param);
-                    if (in_array($variable, array_keys($data))):
+
+                    if (in_array($variable, array_keys($data))) {
                         $extractUrlParams[$key] = $data[$variable];
-                    else:
+                    } else {
                         echo "<h2 style='direction: rtl;color:red;text-align:center'>value for {{$variable}} in {{$routeName}} Route is not defined.</h2>";
                         throw new Exception("value for {{$variable}} in {{$routeName}} Route is not defined");
-                    endif;
-                endif;
-            endforeach;
+                    }
+                }
+            }
 
             return implode('/', $extractUrlParams);
         }

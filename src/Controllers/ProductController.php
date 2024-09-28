@@ -16,7 +16,7 @@ class ProductController
 
     public function index(int $page = 1): void //todo
     {
-        $products = $this->productRepository->findAll();
+        $products = $this->productRepository->findBy();
 
         view('products/index', compact('products', 'page'));
     }
