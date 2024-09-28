@@ -1,4 +1,4 @@
-<?php $Title = 'Home' ?>
+<?php $Title = 'Home'; ?>
 <?php require_once __DIR__ . '/../layouts/header.php'; ?>
 
 <div class="d-block text-center mt-5" style="height: 100vh">

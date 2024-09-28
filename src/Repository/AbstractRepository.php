@@ -1,11 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Core\Database;
 use App\Models\AbstractModel;
-use PDO;
-use ReflectionClass;
 
 /**
  * @template T of AbstractModel
@@ -38,6 +38,7 @@ abstract class AbstractRepository
 
     /**
      * @phpstan-param array<string, mixed> $criteria
+     *
      * @phpstan-return T|null
      */
     public function findOneBy(array $criteria): ?AbstractModel
@@ -53,7 +54,10 @@ abstract class AbstractRepository
         $sql = 'SELECT COUNT(*) FROM ' . $this->tableName;
 
         if (! empty($criteria)) {
-            $sql .= ' WHERE ' . implode(' AND ', array_map(fn (string $param): string => $param . '=:' . $param, array_keys($criteria)));
+            $sql .= ' WHERE ' . implode(
+                ' AND ',
+                array_map(fn (string $param): string => $param . '=:' . $param, array_keys($criteria)),
+            );
         }
 
         $query = $this->db->pdo->prepare($sql);
@@ -65,14 +69,18 @@ abstract class AbstractRepository
     /**
      * @phpstan-param array<string, mixed> $criteria
      * @phpstan-param array<string, 'ASC'|'DESC'> $orderBy
+     *
      * @phpstan-return list<T>
      */
-    public function findBy(array $criteria = [], array $orderBy = [], int $limit = null, int $offset = null): array
+    public function findBy(array $criteria = [], array $orderBy = [], ?int $limit = null, ?int $offset = null): array
     {
         $sql = 'SELECT * FROM ' . $this->tableName;
 
         if (! empty($criteria)) {
-            $sql .= ' WHERE ' . implode(' AND ', array_map(fn (string $param): string => $param . '=:' . $param, array_keys($criteria)));
+            $sql .= ' WHERE ' . implode(
+                ' AND ',
+                array_map(fn (string $param): string => $param . '=:' . $param, array_keys($criteria)),
+            );
         }
 
         if (! empty($orderBy)) {
@@ -96,7 +104,7 @@ abstract class AbstractRepository
         $query = $this->db->pdo->prepare($sql);
         $query->execute($criteria);
 
-        return (array) $query->fetchAll(PDO::FETCH_CLASS, $this->modelClass);
+        return (array) $query->fetchAll(\PDO::FETCH_CLASS, $this->modelClass);
     }
 
     public function delete(int $id): bool
@@ -108,18 +116,22 @@ abstract class AbstractRepository
 
     /**
      * @phpstan-param T $object
+     *
      * @phpstan-return T
      */
     public function create(AbstractModel $object): AbstractModel
     {
-        $reflection = new ReflectionClass($object);
+        $reflection = new \ReflectionClass($object);
         $properties = $reflection->getProperties();
         $data = [];
         foreach ($properties as $property) {
             $data[$property->getName()] = $property->getValue($object);
         }
 
-        $sql = 'INSERT INTO ' . $this->tableName . '(' . implode(',', array_keys($data)) . ') VALUES (' . implode(',', array_map(fn (string $field) => ':' . $field, array_keys($data))) . ')';
+        $sql = 'INSERT INTO ' . $this->tableName . '(' . implode(',', array_keys($data)) . ') VALUES (' . implode(
+            ',',
+            array_map(fn (string $field) => ':' . $field, array_keys($data)),
+        ) . ')';
         $query = $this->db->pdo->prepare($sql);
         $query->execute($data);
 
@@ -132,18 +144,22 @@ abstract class AbstractRepository
 
     /**
      * @phpstan-param T $object
+     *
      * @phpstan-return T
      */
     public function update(AbstractModel $object): AbstractModel
     {
-        $reflection = new ReflectionClass($object);
+        $reflection = new \ReflectionClass($object);
         $properties = $reflection->getProperties();
         $data = [];
         foreach ($properties as $property) {
             $data[$property->getName()] = $property->getValue($object);
         }
 
-        $sql = 'UPDATE ' . $this->tableName . ' SET ' . implode(',', array_map(fn (string $field): string => $field . '=:' . $field, array_keys($data))) . ' WHERE id=:id';
+        $sql = 'UPDATE ' . $this->tableName . ' SET ' . implode(
+            ',',
+            array_map(fn (string $field): string => $field . '=:' . $field, array_keys($data)),
+        ) . ' WHERE id=:id';
         $query = $this->db->pdo->prepare($sql);
         $query->execute($data);
 

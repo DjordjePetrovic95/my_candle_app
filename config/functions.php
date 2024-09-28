@@ -1,12 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Core\Router;
 use App\Models\User;
 
 function dd(mixed $value, mixed ...$values): never
 {
     var_dump(func_get_args());
-    die;
+
+    exit;
 }
 
 /**
@@ -14,12 +17,13 @@ function dd(mixed $value, mixed ...$values): never
  */
 function view(string $name, array $data = []): void
 {
-    if (! file_exists(__DIR__ . "/../views/$name.php")) {
+    if (! file_exists(__DIR__ . "/../views/{$name}.php")) {
         abort(404);
     }
 
     extract($data);
-    require_once __DIR__ . "/../views/$name.php";
+
+    require_once __DIR__ . "/../views/{$name}.php";
 }
 
 /**
@@ -33,7 +37,6 @@ function json(array $data): void
 
 /**
  * @param array<string, mixed> $data
- * @throws Exception
  */
 function route(string $routeName, array $data = []): string
 {
@@ -42,12 +45,12 @@ function route(string $routeName, array $data = []): string
 
 /**
  * @param array<string, mixed> $data
- * @throws Exception
  */
 function redirect(string $routeName, array $data = []): never
 {
     header('Location: ' . route($routeName, $data));
-    exit();
+
+    exit;
 }
 
 function public_dir(string $file): string
@@ -109,6 +112,7 @@ function logout(): void
 function currentUser(): ?User
 {
     $user = unserialize($_SESSION['user'] ?? '');
+
     return $user instanceof User ? $user : null;
 }
 

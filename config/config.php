@@ -1,8 +1,7 @@
 <?php
 
-/**
- * @throws Exception
- */
+declare(strict_types=1);
+
 function config(string $key): mixed
 {
     $config = [
@@ -25,7 +24,7 @@ function config(string $key): mixed
 
     foreach ($pieces as $piece) {
         if (! is_array($tmp) || ! array_key_exists($piece, $tmp)) {
-            throw new \Exception('Config could not be found: ' . $key);
+            throw new Exception('Config could not be found: ' . $key);
         }
 
         $tmp = $tmp[$piece];

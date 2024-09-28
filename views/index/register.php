@@ -1,4 +1,4 @@
-<?php $Title = 'Register' ?>
+<?php $Title = 'Register'; ?>
 <?php require_once __DIR__ . '/../layouts/header.php'; ?>
 
 <div class="container-fluid">

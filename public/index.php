@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use App\Core\Router;
 
 date_default_timezone_set('Europe/Belgrade');

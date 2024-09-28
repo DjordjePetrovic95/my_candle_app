@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Models\Product;
@@ -14,7 +16,7 @@ class ProductController
         $this->productRepository = new ProductRepository();
     }
 
-    public function index(): void //todo
+    public function index(): void
     {
         view('products/index');
     }

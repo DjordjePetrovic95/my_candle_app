@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Core;
+declare(strict_types=1);
 
-use Exception;
+namespace App\Core;
 
 class Router
 {
@@ -17,9 +17,6 @@ class Router
 
     private ?string $method = null;
 
-    /**
-     * @throws Exception
-     */
     public function __construct()
     {
         /** @phpstan-ignore-next-line */
@@ -28,7 +25,7 @@ class Router
         $requestUri = parse_url($requestUri, PHP_URL_PATH);
 
         if (! is_string($requestUri)) {
-            throw new Exception('Request URI could not be parsed.');
+            throw new \Exception('Request URI could not be parsed.');
         }
 
         $this->path = $requestUri;
@@ -41,6 +38,7 @@ class Router
             if ($this->ValidateRoute($route['url'])) {
                 $this->controller = $route['controller'];
                 $this->method = $route['method'];
+
                 break;
             }
         }
@@ -48,44 +46,14 @@ class Router
         if ($this->controller && $this->method) {
             $Instance = new $this->controller();
             $method = $this->method;
-            $Instance->$method(...$this->parameters);
+            $Instance->{$method}(...$this->parameters);
         } else {
             abort();
         }
     }
 
-    private function ValidateRoute(string $routeUrl): bool
-    {
-        // uri that programmer define
-        $uri = array_values(array_filter(explode('/', $routeUrl)));
-
-        //client url
-        $url = array_values(array_filter(explode('/', $this->path)));
-
-        if (count($uri) !== count($url)) {
-            return false;
-        }
-
-        foreach ($uri as $key => $params) {
-            //if url has {*} accept whatever in it
-            if (preg_match('/{(.*?)}/', $params)) {
-                $param = str_replace(['{', '}'], '', $params);
-                $this->parameters[$param] = $url[$key];
-                continue;
-            } else {
-                if ($params !== $url[$key]) {
-                    return false;
-                }
-            }
-        }
-
-        // client url truly found
-        return true;
-    }
-
     /**
      * @param array<string, mixed> $data
-     * @throws Exception
      */
     public function GetRouteByName(string $routeName, array $data): string
     {
@@ -94,23 +62,52 @@ class Router
 
         if (empty($searchRoute)) {
             return $routeName;
-        } else {
-            $extractUrlParams = array_values(array_filter(explode('/', $searchRoute['url'])));
+        }
+        $extractUrlParams = array_values(array_filter(explode('/', $searchRoute['url'])));
 
-            foreach ($extractUrlParams as $key => $param) {
-                if (preg_match('/{(.*?)}/', $param)) {
-                    $variable = str_replace(['{', '}'], '', $param);
+        foreach ($extractUrlParams as $key => $param) {
+            if (preg_match('/{(.*?)}/', $param)) {
+                $variable = str_replace(['{', '}'], '', $param);
 
-                    if (in_array($variable, array_keys($data))) {
-                        $extractUrlParams[$key] = $data[$variable];
-                    } else {
-                        echo "<h2 style='direction: rtl;color:red;text-align:center'>value for {{$variable}} in {{$routeName}} Route is not defined.</h2>";
-                        throw new Exception("value for {{$variable}} in {{$routeName}} Route is not defined");
-                    }
+                if (in_array($variable, array_keys($data), true)) {
+                    $extractUrlParams[$key] = $data[$variable];
+                } else {
+                    echo "<h2 style='direction: rtl;color:red;text-align:center'>value for {{$variable}} in {{$routeName}} Route is not defined.</h2>";
+
+                    throw new \Exception("value for {{$variable}} in {{$routeName}} Route is not defined");
                 }
             }
-
-            return implode('/', $extractUrlParams);
         }
+
+        return implode('/', $extractUrlParams);
+    }
+
+    private function ValidateRoute(string $routeUrl): bool
+    {
+        // uri that programmer define
+        $uri = array_values(array_filter(explode('/', $routeUrl)));
+
+        // client url
+        $url = array_values(array_filter(explode('/', $this->path)));
+
+        if (count($uri) !== count($url)) {
+            return false;
+        }
+
+        foreach ($uri as $key => $params) {
+            // if url has {*} accept whatever in it
+            if (preg_match('/{(.*?)}/', $params)) {
+                $param = str_replace(['{', '}'], '', $params);
+                $this->parameters[$param] = $url[$key];
+
+                continue;
+            }
+            if ($params !== $url[$key]) {
+                return false;
+            }
+        }
+
+        // client url truly found
+        return true;
     }
 }

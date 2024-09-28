@@ -1,4 +1,4 @@
-<?php $Title = 'Create Product' ?>
+<?php $Title = 'Create Product'; ?>
 <?php require_once __DIR__ . '/../layouts/header.php'; ?>
 
 <form action="" method="POST" enctype="multipart/form-data">

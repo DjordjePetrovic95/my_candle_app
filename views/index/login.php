@@ -1,4 +1,4 @@
-<?php $Title = 'Login' ?>
+<?php $Title = 'Login'; ?>
 <?php require_once __DIR__ . '/../layouts/header.php'; ?>
 
 <div class="container-fluid">

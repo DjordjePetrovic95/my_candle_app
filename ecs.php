@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use PhpCsFixer\Fixer\Import\NoUnusedImportsFixer;
-use PhpCsFixer\Fixer\StringNotation\SingleQuoteFixer;
+use PhpCsFixer\Fixer\Phpdoc\PhpdocToCommentFixer;
+use Symplify\CodingStandard\Fixer\LineLength\LineLengthFixer;
 use Symplify\EasyCodingStandard\Config\ECSConfig;
 
 return ECSConfig::configure()
@@ -13,22 +13,17 @@ return ECSConfig::configure()
         __DIR__ . '/public',
         __DIR__ . '/src',
     ])
-
-    // add a single rule
-    ->withRules([
-        NoUnusedImportsFixer::class,
-        SingleQuoteFixer::class,
+    ->withSkip([
+        LineLengthFixer::class => [
+            __DIR__ . '/views'
+        ],
+        PhpdocToCommentFixer::class,
     ])
-
-    // add sets - group of rules
     ->withPreparedSets(
         psr12: true,
-        arrays: true,
-        comments: true,
-        docblocks: true,
-        spaces: true,
-        namespaces: true,
-        cleanCode: true,
+        common: true,
+        symplify: true,
+        strict: true,
+        cleanCode: true
      )
-     
      ;
