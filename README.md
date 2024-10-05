@@ -8,5 +8,5 @@
 4. ako ima potrebe azurirati `config/config.php` i konekciju sa bazom i url parametre
 5. potrebno je generisati composer autoload pomocu `composer dump-autoload`
 6. vec postojeci korisnici:
-   - `djordje_admin` / `djordje_admin`
-   - `djordje_user` / `djordje_user`
+   - `djordje_admin`/`djordje_admin`
+   - `djordje_viewer`/`djordje_viewer`
