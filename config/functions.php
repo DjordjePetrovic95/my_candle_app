@@ -38,7 +38,7 @@ function json(array $data): void
  */
 function route(string $routeName, array $data = []): string
 {
-    return config('app.app_url') . (new Router())->GetRouteByName($routeName, $data);
+    return PROTOCOL . '://' . config('app.app_url') . (new Router())->GetRouteByName($routeName, $data);
 }
 
 function currentRoute(): ?string
@@ -60,7 +60,7 @@ function public_dir(string $file): string
 {
     $file = ltrim($file, '/');
 
-    return config('app.public_url') . $file;
+    return PROTOCOL . '://' . config('app.public_url') . $file;
 }
 
 function abort(int $code = 404, ?string $message = null): void

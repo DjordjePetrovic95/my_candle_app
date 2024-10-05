@@ -4,15 +4,15 @@ function config(string $key): mixed
 {
     $config = [
         'db' => [
-            'host' => 'candleapp.test',
-            'user' => 'root',
-            'pass' => '',
-            'db_name' => 'candle_shop',
+            'host' => 'sql106.infinityfree.com',
+            'user' => 'if0_37451772',
+            'pass' => 'dMYnvXkzyBMJKu',
+            'db_name' => 'if0_37451772_candle_shop',
         ],
         'app' => [
             'subdirectory' => '',
-            'app_url' => 'http://candleapp.test/',
-            'public_url' => 'http://candleapp.test/',
+            'app_url' => 'mojsajt.rf.gd/',
+            'public_url' => 'mojsajt.rf.gd/',
             'app_name' => 'Candle Shop',
         ],
     ];
