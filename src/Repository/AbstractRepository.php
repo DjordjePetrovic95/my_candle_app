@@ -11,14 +11,16 @@ use App\Models\AbstractModel;
 abstract class AbstractRepository
 {
     private readonly Database $db;
+    private readonly string $tableName;
 
     /**
      * @phpstan-param class-string<T> $modelClass
      */
     public function __construct(
         private readonly string $modelClass,
-        private readonly string $tableName,
+        string $tableName,
     ) {
+        $this->tableName = config('db.db_prefix').$tableName;
         $this->db = Database::getInstance();
     }
 

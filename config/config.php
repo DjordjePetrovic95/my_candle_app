@@ -8,6 +8,7 @@ function config(string $key): mixed
             'user' => 'if0_37451772',
             'pass' => 'dMYnvXkzyBMJKu',
             'db_name' => 'if0_37451772_candle_shop',
+            'db_prefix' => ''
         ],
         'app' => [
             'subdirectory' => '',
